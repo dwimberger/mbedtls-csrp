@@ -369,6 +369,7 @@ static BIGNUM * calculate_x( SRP_HashAlgorithm alg, const BIGNUM * salt, const c
     HashCTX       ctx;
 
     hash_init( alg, &ctx );
+    hash_starts( alg, &ctx );
 
     hash_update( alg, &ctx, username, strlen(username) );
     hash_update( alg, &ctx, ":", 1 );
