@@ -966,10 +966,13 @@ void  srp_user_process_challenge( struct SRPUser * usr,
 	    mbedtls_mpi_exp_mod(v, usr->ng->g, x, usr->ng->N, RR);
         /* S = (B - k*(g^x)) ^ (a + ux) */
         mbedtls_mpi_mul_mpi( tmp1, u, x );
+	mebdtls_mpi_mod( tmp1, tmp1, usr->ng->N);
         mbedtls_mpi_add_mpi( tmp2, usr->a, tmp1);
+	mebdtls_mpi_mod( tmp2, tmp2, usr->ng->N);
         /* tmp2 = (a + ux)      */
         mbedtls_mpi_exp_mod( tmp1, usr->ng->g, x, usr->ng->N, RR);        
         mbedtls_mpi_mul_mpi( tmp3, k, tmp1 );
+	mebdtls_mpi_mod( tmp3, tmp3, usr->ng->N);
         /* tmp3 = k*(g^x)       */
         mbedtls_mpi_sub_mpi(tmp1, B, tmp3);
         /* tmp1 = (B - K*(g^x)) */
