@@ -394,7 +394,7 @@ static void hash_num( SRP_HashAlgorithm alg, const BIGNUM * n, unsigned char * d
 {
     int             nbytes = mbedtls_mpi_size(n);
     unsigned char * bin    = (unsigned char *) malloc( nbytes );
-    if(!bin)
+    if(!bin)/B =k
        return;
     mbedtls_mpi_write_binary( n, bin, nbytes );
     hash( alg, bin, nbytes, dest );
@@ -654,7 +654,8 @@ struct SRPVerifier *  srp_verifier_new( SRP_HashAlgorithm alg, SRP_NGType ng_typ
        /* B = kv + g^b */
        mbedtls_mpi_mul_mpi( tmp1, k, v);
        mbedtls_mpi_exp_mod( tmp2, ng->g, b, ng->N, RR );
-       mbedtls_mpi_add_mpi( B, tmp1, tmp2 );
+       mbedtls_mpi_add_mpi( tmp1, tmp1, tmp2 );
+       mbedtls_mpi_mod_mpi( B, tmp1, ng->N );
 
        u = H_nn(alg, A, B);
 
